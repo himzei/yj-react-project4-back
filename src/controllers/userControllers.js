@@ -4,8 +4,16 @@ import User from "../models/user";
 
 export const logout = async (req, res) => {
   try {
-    res.cookie("accessToken", "");
-    res.cookie("refreshToken", "");
+    res.cookie("accessToken", "", {
+      secure: true,
+      httpOnly: false,
+      sameSite: "None",
+    });
+    res.cookie("refreshToken", "", {
+      secure: true,
+      httpOnly: false,
+      sameSite: "None",
+    });
 
     res.status(200).json({ ok: true, message: "로그아웃 성공" });
   } catch (error) {
