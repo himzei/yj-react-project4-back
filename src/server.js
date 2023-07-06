@@ -19,8 +19,9 @@ let corsOptions = {
     "https://www.hamo.fun",
     "https://hamo.fun",
   ],
-  methods: ["GET", "POST"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
+  optionsSuccessStatus: 200,
 };
 
 // 미들웨어
