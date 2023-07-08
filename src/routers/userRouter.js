@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  kakaoLogin,
   loginSuccess,
   logout,
   postJoin,
@@ -12,5 +13,6 @@ userRouter.post("/signup", postJoin);
 userRouter.post("/login", postLogin);
 userRouter.get("/login/success", loginSuccess);
 userRouter.post("/logout", logout);
+userRouter.post("/kakao", kakaoLogin);
 
 export default userRouter;

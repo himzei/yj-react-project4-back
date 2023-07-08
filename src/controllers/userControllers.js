@@ -2,6 +2,128 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user";
 
+export const kakaoLogin = async (req, res) => {
+  try {
+    // Access Token 받는 코드
+    const KAKAO_BASE_PATH = "https://kauth.kakao.com/oauth/token";
+    const config = {
+      grant_type: "authorization_code",
+      client_id: process.env.KAKAO_CLIENT,
+      code: req.body.code,
+      redirect_uri: process.env.REDIRECT_URI,
+    };
+    const params = new URLSearchParams(config).toString();
+    const finalUrl = `${KAKAO_BASE_PATH}?${params}`;
+
+    const data = await fetch(finalUrl, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    const tokenRequest = await data.json();
+
+    // 유저 정보 받는 코드
+    if ("access_token" in tokenRequest) {
+      const { access_token } = tokenRequest;
+      const userRequest = await fetch("https://kapi.kakao.com/v2/user/me", {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+      const userData = await userRequest.json();
+
+      const {
+        kakao_account: {
+          profile: { nickname, thumbnail_image_url },
+          email,
+        },
+      } = userData;
+      console.log(nickname, thumbnail_image_url, email);
+
+      const existingUser = await User.findOne({ email });
+
+      if (existingUser) {
+        const accessToken = jwt.sign(
+          {
+            id: existingUser._id,
+          },
+          process.env.ACCESS_SECRET,
+          {
+            expiresIn: "24h",
+          }
+        );
+        const refreshToken = jwt.sign(
+          {
+            id: existingUser._id,
+          },
+          process.env.REFRESH_SECRET,
+          {
+            expiresIn: "30d",
+          }
+        );
+
+        res.cookie("accessToken", accessToken, {
+          secure: true,
+          httpOnly: false,
+          sameSite: "None",
+        });
+
+        res.cookie("refreshToken", refreshToken, {
+          secure: true,
+          httpOnly: false,
+          sameSite: "None",
+        });
+        return res.status(200).json({ ok: true });
+      } else {
+        const user = await User.create({
+          name: nickname,
+          username: nickname,
+          email: email,
+          password: "",
+          socialOnly: true,
+          avatarUrl: thumbnail_image_url,
+        });
+
+        const accessToken = jwt.sign(
+          {
+            id: user._id,
+          },
+          process.env.ACCESS_SECRET,
+          {
+            expiresIn: "24h",
+          }
+        );
+        const refreshToken = jwt.sign(
+          {
+            id: user._id,
+          },
+          process.env.REFRESH_SECRET,
+          {
+            expiresIn: "30d",
+          }
+        );
+
+        res.cookie("accessToken", accessToken, {
+          secure: true,
+          httpOnly: false,
+          sameSite: "None",
+        });
+
+        res.cookie("refreshToken", refreshToken, {
+          secure: true,
+          httpOnly: false,
+          sameSite: "None",
+        });
+        return res.status(200).json({ ok: true });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const logout = async (req, res) => {
   try {
     res.cookie("accessToken", "", {
