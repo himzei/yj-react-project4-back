@@ -149,11 +149,14 @@ export const loginSuccess = async (req, res) => {
     const data = jwt.verify(token, process.env.ACCESS_SECRET);
     const userData = await User.findOne({ _id: data.id });
 
-    res
-      .status(200)
-      .json({ ok: true, email: userData.email, username: userData.username });
+    res.status(200).json({
+      ok: true,
+      email: userData.email,
+      username: userData.username,
+      avatarUrl: userData.avatarUrl,
+    });
   } catch (error) {
-    res.status(500).json({ ok: false, error });
+    res.status(200).json({ ok: false, message: "로그인이 실패" });
   }
 };
 
@@ -217,11 +220,6 @@ export const postJoin = async (req, res) => {
     res.json({ ok: "false", error: "입력하신 패스워드가 다릅니다." });
   }
 
-  // const exists = await User.exists({ $or: [{ username }, { email }] });
-  // if (exists) {
-  //   res.json({ ok: "false", error: "username/email 이 존재하지 않습니다." });
-  // }
-
   try {
     await User.create({
       username,
@@ -230,6 +228,23 @@ export const postJoin = async (req, res) => {
       createdAt: Date.now(),
     });
     res.json({ ok: "true" });
+  } catch (error) {
+    res.status(500).json({ ok: "false", error: `에러가 발생햇씁니다.` });
+  }
+};
+
+export const confrimUsername = async (req, res) => {
+  const { username } = req.query;
+  try {
+    const user = await User.findOne({ username });
+    if (user) {
+      return res
+        .status(200)
+        .json({ ok: false, message: "압력하신 아이디는 이미 존재합니다." });
+    }
+    return res
+      .status(200)
+      .json({ ok: true, message: "해당 아이디는 사용할 수 있습니다." });
   } catch (error) {
     res.status(500).json({ ok: "false", error: `에러가 발생햇씁니다.` });
   }
