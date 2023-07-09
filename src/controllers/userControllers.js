@@ -165,11 +165,15 @@ export const postLogin = async (req, res) => {
 
   const user = await User.findOne({ username });
   if (!user) {
-    return res.json({ ok: "error", error: "해당하는 유저가 없습니다." });
+    return res
+      .status(401)
+      .json({ ok: "false", message: "해당하는 유저가 없습니다." });
   }
   const ok = await bcrypt.compare(password, user.password);
   if (!ok) {
-    return res.json({ ok: "error", error: "이메일/패스워드가 다릅니다." });
+    return res
+      .status(401)
+      .json({ ok: "false", message: "이메일/패스워드가 다릅니다." });
   }
 
   try {
@@ -204,7 +208,7 @@ export const postLogin = async (req, res) => {
       sameSite: "None",
     });
 
-    res.status(200).json({ ok: true });
+    res.status(200).json({ ok: "true" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ ok: false });
