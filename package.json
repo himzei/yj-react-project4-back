@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "node build/server.js",
-    "build": "babel src -d build",
+    "build": "babel src -d build && cp src/cert.txt build",
     "dev": "nodemon --exec babel-node src/server.js"
   },
   "author": "",

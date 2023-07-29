@@ -10,9 +10,11 @@ var _cookieParser = _interopRequireDefault(require("cookie-parser"));
 var _rentalRouter = _interopRequireDefault(require("./routers/rentalRouter"));
 var _userRouter = _interopRequireDefault(require("./routers/userRouter"));
 var _foodsRouter = _interopRequireDefault(require("./routers/foodsRouter"));
+var _path = _interopRequireDefault(require("path"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var PORT = process.env.PORT;
 var app = (0, _express["default"])();
+var _dirname = _path["default"].resolve();
 var corsOptions = {
   origin: ["http://127.0.0.1:5500", "http://localhost:3000", "https://bejewelled-melba-55c01e.netlify.app", "https://web-yeosu-expo-web-kvmh2mljps546n.sel4.cloudtype.app", "https://www.hamo.fun", "https://hamo.fun"],
   methods: ["GET", "POST", "PUT", "DELETE"],
@@ -28,6 +30,9 @@ app.use(_express["default"].urlencoded({
   extended: true
 }));
 app.use(_express["default"].json());
+app.get("/.well-known/pki-validation/", function (req, res) {
+  return res.sendFile(_path["default"].join(_dirname, "build/cert.txt"));
+});
 app.use("/rental", _rentalRouter["default"]);
 app.use("/user", _userRouter["default"]);
 app.use("/api/foods", _foodsRouter["default"]);

@@ -8,9 +8,11 @@ import cookieParser from "cookie-parser";
 import rentalRouter from "./routers/rentalRouter";
 import userRouter from "./routers/userRouter";
 import foodsRouter from "./routers/foodsRouter";
+import path from "path";
 
 const PORT = process.env.PORT;
 const app = express();
+const __dirname = path.resolve();
 
 let corsOptions = {
   origin: [
@@ -33,6 +35,9 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.get("/.well-known/pki-validation/", (req, res) =>
+  res.sendFile(path.join(__dirname, "build/cert.txt"))
+);
 app.use("/rental", rentalRouter);
 app.use("/user", userRouter);
 app.use("/api/foods", foodsRouter);
