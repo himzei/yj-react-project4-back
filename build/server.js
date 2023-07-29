@@ -14,7 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var PORT = process.env.PORT;
 var app = (0, _express["default"])();
 var corsOptions = {
-  origin: ["http://localhost:3000", "https://bejewelled-melba-55c01e.netlify.app", "https://web-yeosu-expo-web-kvmh2mljps546n.sel4.cloudtype.app", "https://www.hamo.fun", "https://hamo.fun"],
+  origin: ["http://127.0.0.1:5500", "http://localhost:3000", "https://bejewelled-melba-55c01e.netlify.app", "https://web-yeosu-expo-web-kvmh2mljps546n.sel4.cloudtype.app", "https://www.hamo.fun", "https://hamo.fun"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
   optionsSuccessStatus: 200

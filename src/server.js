@@ -14,6 +14,7 @@ const app = express();
 
 let corsOptions = {
   origin: [
+    "http://127.0.0.1:5500",
     "http://localhost:3000",
     "https://bejewelled-melba-55c01e.netlify.app",
     "https://web-yeosu-expo-web-kvmh2mljps546n.sel4.cloudtype.app",

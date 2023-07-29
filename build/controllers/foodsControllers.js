@@ -20,7 +20,10 @@ var getJoonguFoods = /*#__PURE__*/function () {
             method: "GET",
             url: "https://www.daegufood.go.kr/kor/api/tasty.html?mode=json&addr=%EC%A4%91%EA%B5%AC"
           }).then(function (response) {
-            return res.send(response.data);
+            return res.json({
+              ok: "true",
+              data: response.data
+            });
           });
         case 1:
         case "end":
