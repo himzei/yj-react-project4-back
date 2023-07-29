@@ -5,5 +5,5 @@ export const getJoonguFoods = async (req, res) => {
   axios({
     method: "GET",
     url: "https://www.daegufood.go.kr/kor/api/tasty.html?mode=json&addr=%EC%A4%91%EA%B5%AC",
-  }).then((response) => res.send(response.data));
+  }).then((response) => res.json({ ok: "true", data: response.data }));
 };
