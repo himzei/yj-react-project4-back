@@ -10,7 +10,11 @@ var rentalNoticeSchema = new _mongoose["default"].Schema({
   title: String,
   description: String,
   createdAt: Date,
-  writer: String
+  writer: String,
+  hits: {
+    type: Number,
+    "default": 0
+  }
 });
 var RentalNotice = _mongoose["default"].model("RentalNotice", rentalNoticeSchema);
 var _default = RentalNotice;

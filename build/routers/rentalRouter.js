@@ -10,5 +10,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var rentalRouter = _express["default"].Router();
 rentalRouter.get("/notice", _rentalControllers.rentalNotice);
 rentalRouter.post("/notice-write", _rentalControllers.rentalNoticeWrite);
+rentalRouter.route("/notice/:id").get(_rentalControllers.rentalNoticeDetail).put(_rentalControllers.rentalNoticeDetailHits);
 var _default = rentalRouter;
 exports["default"] = _default;

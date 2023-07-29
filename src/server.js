@@ -7,6 +7,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import rentalRouter from "./routers/rentalRouter";
 import userRouter from "./routers/userRouter";
+import foodsRouter from "./routers/foodsRouter";
 
 const PORT = process.env.PORT;
 const app = express();
@@ -33,6 +34,7 @@ app.use(express.json());
 
 app.use("/rental", rentalRouter);
 app.use("/user", userRouter);
+app.use("/api/foods", foodsRouter);
 
 const handleListening = () =>
   console.log(`Server listening on port http://localhost:${PORT}`);
