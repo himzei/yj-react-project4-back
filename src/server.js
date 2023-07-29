@@ -35,8 +35,9 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get("/.well-known/pki-validation/", (req, res) =>
-  res.sendFile(path.join(__dirname, "build/cert.txt"))
+app.get(
+  "/.well-known/pki-validation/CE8CF65527EFD3074A4EC2E5F2390BEB.txt",
+  (req, res) => res.sendFile(path.join(__dirname, "build/cert.txt"))
 );
 app.use("/rental", rentalRouter);
 app.use("/user", userRouter);

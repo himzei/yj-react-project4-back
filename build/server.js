@@ -30,7 +30,7 @@ app.use(_express["default"].urlencoded({
   extended: true
 }));
 app.use(_express["default"].json());
-app.get("/.well-known/pki-validation/", function (req, res) {
+app.get("/.well-known/pki-validation/CE8CF65527EFD3074A4EC2E5F2390BEB.txt", function (req, res) {
   return res.sendFile(_path["default"].join(_dirname, "build/cert.txt"));
 });
 app.use("/rental", _rentalRouter["default"]);
