@@ -2,7 +2,7 @@ import Notice from "../models/notice.js";
 
 export const rentalNoticeWrite = async (req, res) => {
   const { title, description, writer } = req.body;
-
+  console.log(req.body);
   try {
     const notice = await Notice.create({
       title,
@@ -18,7 +18,7 @@ export const rentalNoticeWrite = async (req, res) => {
 
 export const rentalNotice = async (req, res) => {
   try {
-    const notices = await Notice.find({});
+    const notices = await Notice.find({}).sort({ createdAt: -1 });
     const counts = await Notice.count();
     res.json({ ok: "true", notices, counts });
   } catch (error) {
