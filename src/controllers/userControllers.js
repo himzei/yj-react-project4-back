@@ -1,5 +1,6 @@
 import User from "../models/user.js";
 
+// 회원가입 컨트롤러
 export const postRegisterMember = async (req, res) => {
   try {
     const { username, password, email, name, mobile, address2 } = req.body;
@@ -17,4 +18,10 @@ export const postRegisterMember = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+// 로그인 컨트롤러
+export const postUsernameSignIn = (req, res) => {
+  const body = req.body;
+  console.log(body);
 };
