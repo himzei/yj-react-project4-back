@@ -78,6 +78,7 @@ export const getLoginSuccess = async (req, res) => {
       .status(200)
       .json({ ok: "true", email: userData.email, username: userData.username });
   } catch (error) {
+    res.status(400).json({ ok: "false" });
     console.log(error);
   }
 };
